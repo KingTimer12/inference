@@ -1,0 +1,111 @@
+[package]
+name = "ultralytics-inference"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+description.workspace = true
+license.workspace = true
+repository.workspace = true
+documentation.workspace = true
+homepage.workspace = true
+readme.workspace = true
+keywords.workspace = true
+categories.workspace = true
+include = [
+    "/Cargo.toml",
+    "/Cargo.lock",
+    "/LICENSE",
+    "/README.md",
+    "/src/**/*.rs",
+    "/tests/**/*.rs",
+]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+name = "ultralytics_inference"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ultralytics-inference"
+path = "src/main.rs"
+
+[features]
+default = ["annotate", "visualize"]
+
+# Real-time visualization
+visualize = ["minifb"]
+
+# Video file support (requires ffmpeg installed on system)
+video = ["video-rs"]
+
+# Image annotation support (for --save feature in CLI)
+annotate = ["imageproc", "ab_glyph"]
+
+# NVIDIA GPU acceleration
+cuda = ["ort/cuda"]
+tensorrt = ["ort/tensorrt"]
+
+# AMD GPU acceleration
+rocm = ["ort/rocm"]
+
+# Intel acceleration
+openvino = ["ort/openvino"]
+onednn = ["ort/onednn"]
+
+# DirectML (Windows)
+directml = ["ort/directml"]
+
+# Mobile/Embedded
+nnapi = ["ort/nnapi"]   # Android
+coreml = ["ort/coreml"] # iOS/macOS
+qnn = ["ort/qnn"]       # Qualcomm
+
+# Additional accelerators
+xnnpack = ["ort/xnnpack"]
+acl = ["ort/acl"]           # ARM Compute Library
+armnn = ["ort/armnn"]       # ARM NN
+tvm = ["ort/tvm"]           # Apache TVM
+migraphx = ["ort/migraphx"] # AMD MIGraphX
+rknpu = ["ort/rknpu"]       # Rockchip NPU
+cann = ["ort/cann"]         # Huawei CANN
+webgpu = ["ort/webgpu"]     # WebGPU
+azure = ["ort/azure"]       # Azure
+
+# Convenience feature groups
+nvidia = ["cuda", "tensorrt"]
+amd = ["rocm", "migraphx"]
+intel = ["openvino", "onednn"]
+mobile = ["nnapi", "coreml", "qnn"]
+all = ["annotate", "video"]
+
+[dependencies]
+image = { workspace = true }
+jpeg-decoder = { workspace = true }
+fast_image_resize = { workspace = true }
+wide = { workspace = true }
+lru = { workspace = true }
+ndarray = { workspace = true }
+ort = { workspace = true }
+half = { workspace = true }
+ureq = { workspace = true }
+dirs = { workspace = true }
+rayon = { workspace = true }
+bytemuck = { workspace = true }
+clap = { workspace = true }
+colored = { workspace = true }
+minifb = { workspace = true, optional = true }
+video-rs = { workspace = true, optional = true }
+imageproc = { workspace = true, optional = true }
+ab_glyph = { workspace = true, optional = true }
+
+[dev-dependencies]
+serial_test = "3"
+tempfile = "3"
+
+[lints]
+workspace = true

@@ -1,7 +1,10 @@
 # Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
 
-[package]
-name = "ultralytics-inference"
+[workspace]
+resolver = "2"
+members = ["crates/ultralytics-inference", "crates/ultralytics-pyo3"]
+
+[workspace.package]
 version = "0.0.14"
 edition = "2024"
 rust-version = "1.88"
@@ -17,39 +20,18 @@ homepage = "https://www.ultralytics.com"
 readme = "README.md"
 keywords = ["yolo", "ultralytics", "inference", "computer-vision", "ml"]
 categories = ["computer-vision", "science", "command-line-interface"]
-include = [
-    "/Cargo.toml",
-    "/Cargo.lock",
-    "/LICENSE",
-    "/README.md",
-    "/src/**/*.rs",
-    "/tests/**/*.rs",
-]
 
-[package.metadata.docs.rs]
-all-features = true
-rustdoc-args = ["--cfg", "docsrs"]
-targets = ["x86_64-unknown-linux-gnu"]
-
-[lints.rust]
+[workspace.lints.rust]
 unsafe_code = "warn"
 missing_docs = "warn"
 
-[lints.clippy]
+[workspace.lints.clippy]
 all = "warn"
 pedantic = "warn"
 nursery = "warn"
 cargo = "warn"
 
-[lib]
-name = "ultralytics_inference"
-path = "src/lib.rs"
-
-[[bin]]
-name = "ultralytics-inference"
-path = "src/main.rs"
-
-[dependencies]
+[workspace.dependencies]
 # Core - Image loading and processing
 image = "^0.25"
 jpeg-decoder = "^0.3"
@@ -86,67 +68,14 @@ clap = { version = "^4.6.1", features = ["derive"] }
 colored = "^3.1.1"
 
 # Optional - Visualization and Video support
-minifb = { version = "^0.28.0", optional = true }
-video-rs = { version = ">=0.10.5, <0.12", features = ["ndarray"], optional = true }
+minifb = { version = "^0.28.0" }
+video-rs = { version = ">=0.10.5, <0.12", features = ["ndarray"] }
 
 # Optional - Image annotation (for --save feature)
-imageproc = { version = "^0.26", optional = true }
-ab_glyph = { version = "^0.2", optional = true }
+imageproc = { version = "^0.26" }
+ab_glyph = { version = "^0.2" }
 
-[features]
-default = ["annotate", "visualize"]
-
-# Real-time visualization
-visualize = ["minifb"]
-
-# Video file support (requires ffmpeg installed on system)
-video = ["video-rs"]
-
-# Image annotation support (for --save feature in CLI)
-annotate = ["imageproc", "ab_glyph"]
-
-# NVIDIA GPU acceleration
-cuda = ["ort/cuda"]
-tensorrt = ["ort/tensorrt"]
-
-# AMD GPU acceleration
-rocm = ["ort/rocm"]
-
-# Intel acceleration
-openvino = ["ort/openvino"]
-onednn = ["ort/onednn"]
-
-# DirectML (Windows)
-directml = ["ort/directml"]
-
-# Mobile/Embedded
-nnapi = ["ort/nnapi"]   # Android
-coreml = ["ort/coreml"] # iOS/macOS
-qnn = ["ort/qnn"]       # Qualcomm
-
-# Additional accelerators
-xnnpack = ["ort/xnnpack"]
-acl = ["ort/acl"]           # ARM Compute Library
-armnn = ["ort/armnn"]       # ARM NN
-tvm = ["ort/tvm"]           # Apache TVM
-migraphx = ["ort/migraphx"] # AMD MIGraphX
-rknpu = ["ort/rknpu"]       # Rockchip NPU
-cann = ["ort/cann"]         # Huawei CANN
-webgpu = ["ort/webgpu"]     # WebGPU
-azure = ["ort/azure"]       # Azure
-
-# Convenience feature groups
-nvidia = ["cuda", "tensorrt"]
-amd = ["rocm", "migraphx"]
-intel = ["openvino", "onednn"]
-mobile = ["nnapi", "coreml", "qnn"]
-all = ["annotate", "video"]
-
-[dev-dependencies]
-# Testing dependencies
-serial_test = "3"
-tempfile = "3"
-
+ultralytics-inference = { path = "crates/ultralytics-inference" }
 
 [profile.dev]
 opt-level = 0

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["maturin>=1.13,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "ultralytics-inference"
+version = "0.0.13"
+description = "Ultralytics YOLO inference library using Rust"
+readme = "README.md"
+license = { text = "AGPL-3.0" }
+authors = [
+    { name = "Glenn Jocher", email = "glenn.jocher@ultralytics.com" },
+    { name = "Onuralp Sezer", email = "onuralp@ultralytics.com" },
+]
+requires-python = ">=3.8"
+keywords = ["yolo", "ultralytics", "inference", "computer-vision", "ml"]
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+]
+
+[project.urls]
+Homepage = "https://www.ultralytics.com"
+Repository = "https://github.com/ultralytics/inference"
+Documentation = "https://docs.rs/ultralytics-inference"
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-cov"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.maturin]
+manifest-path = "../crates/ultralytics-pyo3/Cargo.toml"
+python-source = "src"

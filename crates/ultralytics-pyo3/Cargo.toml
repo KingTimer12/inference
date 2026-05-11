@@ -1,0 +1,27 @@
+[package]
+name = "ultralytics-pyo3"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+description.workspace = true
+license.workspace = true
+repository.workspace = true
+documentation.workspace = true
+homepage.workspace = true
+readme.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[lib]
+name = "ultralytics_pyo3"
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[dependencies]
+pyo3 = { version = "0.28.3", features = ["experimental-inspect"] }
+ultralytics-inference = { workspace = true }
+image = { workspace = true }
+
+[lints]
+workspace = true
